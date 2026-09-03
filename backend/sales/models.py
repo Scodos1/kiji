@@ -46,7 +46,10 @@ class Sale(models.Model):
 
     def save(self, *args, **kwargs):
         self.total_amount = Decimal(self.quantity) * Decimal(self.unit_price)
-        if self.cost_price == 0 and self.product_id:
+        if self.product_id:
+            # Always keep the cost snapshot in sync with the linked product,
+            # so re-pointing a sale at a different product doesn't keep a
+            # stale cost_price (which would skew gross-profit analytics).
             self.cost_price = self.product.cost_price
         super().save(*args, **kwargs)
 

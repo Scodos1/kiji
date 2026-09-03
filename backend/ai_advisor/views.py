@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.db import transaction
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,15 +19,21 @@ class AskView(APIView):
         if not question:
             return Response({'error': 'Question is required.'}, status=400)
 
-        remaining = service.AIBudget.remaining(request.user)
-        if remaining <= 0:
-            return Response(
-                {'error': 'You have used all your AI questions for this month.'},
-                status=status.HTTP_429_TOO_MANY_REQUESTS,
+        # Reserve the query slot atomically (check + record under a row lock)
+        # so concurrent requests can't exceed the monthly cap.
+        with transaction.atomic():
+            locked_user = get_user_model().objects.select_for_update().get(
+                pk=request.user.pk
             )
+            remaining = service.AIBudget.remaining(locked_user)
+            if remaining <= 0:
+                return Response(
+                    {'error': 'You have used all your AI questions for this month.'},
+                    status=status.HTTP_429_TOO_MANY_REQUESTS,
+                )
+            service.AIBudget.record(locked_user, question)
 
         result = service.ask_question(business, question)
-        service.AIBudget.record(request.user, question)
         return Response({
             'answer': result['answer'],
             'question': question,

@@ -32,19 +32,30 @@ class CustomerSerializer(serializers.ModelSerializer):
         return attrs
 
     def get_total_spent(self, obj):
+        annotated = getattr(obj, 'total_spent_sum', None)
+        if annotated is not None:
+            return float(annotated)
         return sum(float(s.total_amount) for s in obj.sales.all())
 
     def get_total_purchases(self, obj):
-        return obj.sales.count()
+        annotated = getattr(obj, 'sales_count', None)
+        return annotated if annotated is not None else obj.sales.count()
 
     def get_last_purchase(self, obj):
-        sale = obj.last_sale()
-        return sale.sale_date if sale else None
+        try:
+            return obj.last_sale_ts
+        except AttributeError:
+            sale = obj.last_sale()
+            return sale.sale_date if sale else None
 
     def get_status(self, obj):
         return obj.status()
 
     def create(self, validated_data):
         business = self.context['request'].user.businesses.first()
+        if business is None:
+            raise serializers.ValidationError(
+                'No business found. Please complete onboarding first.'
+            )
         validated_data['business'] = business
         return super().create(validated_data)

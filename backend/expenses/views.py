@@ -19,7 +19,3 @@ class ExpenseViewSet(viewsets.ModelViewSet):
         if expense_date:
             qs = qs.filter(expense_date__date=expense_date)
         return qs
-
-    def perform_create(self, serializer):
-        business = self.request.user.businesses.first()
-        serializer.save(business=business)

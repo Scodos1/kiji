@@ -49,5 +49,9 @@ class SaleSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         business = self.context['request'].user.businesses.first()
+        if business is None:
+            raise serializers.ValidationError(
+                'No business found. Please complete onboarding first.'
+            )
         validated_data['business'] = business
         return super().create(validated_data)

@@ -158,7 +158,7 @@ def _rule_answer(question, context):
                 )
         else:
             lines.append("No product sales recorded yet. Add products and sales to see this.")
-    elif any(w in q for w in ['customer', 'retain', 'repeat', 'spend']):
+    elif any(w in q for w in ['customer', 'retain', 'repeat', 'who spent', 'spent the most']):
         seg = context['customer_segments']
         lines.append(
             f"You have {seg['inactive']['count']} inactive, "
@@ -276,17 +276,19 @@ def generate_insights(business):
 class AIBudget:
     """Simple monthly query cap per user (Free = 5)."""
 
-    FREE_MONTHLY = int(getattr(settings, 'AI_FREE_MONTHLY_QUERIES', 5))
-
     @staticmethod
-    def remaining(user):
-        from datetime import timedelta
+    def free_monthly():
+        # Read lazily so changes to AI_FREE_MONTHLY_QUERIES apply without a
+        # process restart.
+        return int(getattr(settings, 'AI_FREE_MONTHLY_QUERIES', 5))
 
+    @classmethod
+    def remaining(cls, user):
         start = timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         from ai_advisor.models import AIQuery
 
         used = AIQuery.objects.filter(user=user, created_at__gte=start).count()
-        return max(AIBudget.FREE_MONTHLY - used, 0)
+        return max(cls.free_monthly() - used, 0)
 
     @staticmethod
     def record(user, question=''):

@@ -12,7 +12,3 @@ class ProductViewSet(viewsets.ModelViewSet):
         if not business:
             return Product.objects.none()
         return Product.objects.filter(business=business)
-
-    def perform_create(self, serializer):
-        business = self.request.user.businesses.first()
-        serializer.save(business=business)

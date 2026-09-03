@@ -5,9 +5,10 @@ This layer feeds the dashboard and the AI advisor with structured data.
 """
 
 from datetime import timedelta
+from decimal import Decimal
 
-from django.db.models import Count, Sum
-from django.db.models.functions import TruncDate
+from django.db.models import DecimalField, Max, Q, Sum, Value
+from django.db.models.functions import Coalesce, TruncDate
 from django.utils import timezone
 
 from customers.models import Customer
@@ -91,8 +92,15 @@ def overview(business, period='30d'):
     if returning_customers < 0:
         returning_customers = 0
 
-    inactive_customers = sum(
-        1 for c in Customer.objects.filter(business=business) if c.status() == 'inactive'
+    now_dt = timezone.now()
+    inactive_customers = (
+        Customer.objects.filter(business=business)
+        .annotate(last_sale_ts=Max('sales__sale_date'))
+        .filter(
+            Q(last_sale_ts__isnull=True)
+            | Q(last_sale_ts__lt=now_dt - timedelta(days=60))
+        )
+        .count()
     )
 
     # Top products by revenue
@@ -141,9 +149,7 @@ def overview(business, period='30d'):
             'expenses_change': _pct_change(expenses, expenses_prev),
             'profit_change': _pct_change(profit, profit_prev),
             'margin_change': (
-                round(margin_prev - profit_margin, 1)
-                if margin_prev is not None
-                else None
+                round(profit_margin - margin_prev, 1) if revenue_prev else None
             ),
         },
     }
@@ -171,9 +177,16 @@ def revenue_series(business, period='30d'):
     rev_map = {str(row['day']): _to_float(row['revenue']) for row in sales}
     exp_map = {str(row['day']): _to_float(row['amount']) for row in expenses}
 
+    # Build exactly `days` calendar buckets ending today, in the local
+    # timezone (matching the TruncDate bucketing above), so today's sales are
+    # included. Previously the loop started at now - N days with a time
+    # component, which dropped today and charted a partial first day.
+    local_now = timezone.localtime(now)
+    start_day = (local_now - timedelta(days=days - 1)).date()
+    end_day = local_now.date()
     points = []
-    for i in range(days):
-        day = (current_start + timedelta(days=i)).date()
+    for i in range((end_day - start_day).days + 1):
+        day = start_day + timedelta(days=i)
         key = day.isoformat()
         revenue = rev_map.get(key, 0.0)
         expense = exp_map.get(key, 0.0)
@@ -229,13 +242,26 @@ def product_performance(business, period='30d'):
 
 
 def customer_segments(business):
-    customers = Customer.objects.filter(business=business)
+    # Single annotated query instead of 2 queries per customer (N+1).
+    customers = (
+        Customer.objects.filter(business=business)
+        .annotate(
+            last_sale_ts=Max('sales__sale_date'),
+            spent=Coalesce(
+                Sum('sales__total_amount'),
+                Value(
+                    Decimal('0'),
+                    output_field=DecimalField(max_digits=14, decimal_places=2),
+                ),
+            ),
+        )
+    )
     counts = {'active': 0, 'at_risk': 0, 'inactive': 0}
     value = {'active': 0.0, 'at_risk': 0.0, 'inactive': 0.0}
     for c in customers:
         status = c.status()
         counts[status] += 1
-        value[status] += sum(float(s.total_amount) for s in c.sales.all())
+        value[status] += float(c.spent or 0)
     return {
         status: {'count': counts[status], 'total_spent': round(value[status], 2)}
         for status in counts

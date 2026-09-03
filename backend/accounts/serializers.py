@@ -62,7 +62,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             email=email,
             password=password,
-            username=email.split('@')[0] or email,
+            # Use the full email as the username: deriving it from the local
+            # part (alice@gmail.com -> 'alice') collides across domains and
+            # raises an IntegrityError (HTTP 500).
+            username=email[:150],
             first_name=name,
         )
         return user

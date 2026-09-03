@@ -34,10 +34,16 @@ class Customer(models.Model):
         from datetime import timedelta
         from django.utils import timezone
 
-        last = self.last_sale()
-        if not last:
+        # Prefer the annotated last_sale_ts (list/segment queries) to avoid a
+        # query per customer; fall back to a lookup on plain instances.
+        try:
+            last_ts = self.last_sale_ts
+        except AttributeError:
+            last = self.last_sale()
+            last_ts = last.sale_date if last else None
+        if not last_ts:
             return 'inactive'
-        days = (timezone.now() - last.sale_date).days
+        days = (timezone.now() - last_ts).days
         if days <= 30:
             return 'active'
         if days <= 60:

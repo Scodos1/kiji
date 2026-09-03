@@ -25,7 +25,3 @@ class SaleViewSet(viewsets.ModelViewSet):
         if payment_method:
             qs = qs.filter(payment_method=payment_method)
         return qs
-
-    def perform_create(self, serializer):
-        business = self.request.user.businesses.first()
-        serializer.save(business=business)

@@ -4,12 +4,10 @@ from .models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    business = serializers.HiddenField(default=None)
-
     class Meta:
         model = Product
         fields = [
-            'id', 'business', 'name', 'description', 'selling_price',
+            'id', 'name', 'description', 'selling_price',
             'cost_price', 'stock_quantity', 'created_at', 'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
@@ -50,5 +48,10 @@ class ProductSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        validated_data['business'] = self.context['request'].user.businesses.first()
+        business = self.context['request'].user.businesses.first()
+        if business is None:
+            raise serializers.ValidationError(
+                'No business found. Please complete onboarding first.'
+            )
+        validated_data['business'] = business
         return super().create(validated_data)

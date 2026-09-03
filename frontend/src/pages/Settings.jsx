@@ -46,7 +46,12 @@ export default function Settings() {
     setSaving(true)
     setSaved(false)
     try {
-      await api.patch(`/business/${business.id}/`, business)
+      await api.patch(`/business/${business.id}/`, {
+        name: business.name,
+        category: business.category,
+        location: business.location,
+        currency: business.currency,
+      })
       await refresh()
       setSaved(true)
     } catch {
