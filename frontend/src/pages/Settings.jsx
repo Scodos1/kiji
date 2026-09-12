@@ -144,6 +144,9 @@ export default function Settings() {
                 Signed in as <span className="font-semibold text-slate-900">{user?.email}</span>
               </p>
               <p className="mt-2 text-xs text-slate-400">You’re on the Free plan — ₦0/month.</p>
+              <a href="/app/billing" className="mt-2 inline-flex text-xs font-semibold text-brand-600 hover:underline">
+                View plans & upgrade →
+              </a>
             </Card>
 
             {saved && <Alert type="success">Settings saved successfully.</Alert>}

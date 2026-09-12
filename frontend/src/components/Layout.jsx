@@ -10,6 +10,7 @@ const NAV = [
   { to: '/app/products', label: 'Products', icon: '📦' },
   { to: '/app/ai', label: 'AI Advisor', icon: '🤖', highlight: true },
   { to: '/app/marketing', label: 'Marketing', icon: '📣' },
+  { to: '/app/billing', label: 'Billing', icon: '💳' },
 ]
 
 const MOBILE_NAV = [

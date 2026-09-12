@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     CustomerSegmentsView,
     ExpenseBreakdownView,
+    ExportView,
     OverviewView,
     ProductPerformanceView,
     RevenueSeriesView,
@@ -14,4 +15,5 @@ urlpatterns = [
     path('expenses/', ExpenseBreakdownView.as_view(), name='analytics-expenses'),
     path('products/', ProductPerformanceView.as_view(), name='analytics-products'),
     path('customers/', CustomerSegmentsView.as_view(), name='analytics-customers'),
+    path('export/', ExportView.as_view(), name='analytics-export'),
 ]

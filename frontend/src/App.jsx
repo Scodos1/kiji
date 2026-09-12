@@ -15,6 +15,7 @@ const Customers = lazy(() => import('./pages/Customers'))
 const Products = lazy(() => import('./pages/Products'))
 const AIAdvisor = lazy(() => import('./pages/AIAdvisor'))
 const Marketing = lazy(() => import('./pages/Marketing'))
+const Billing = lazy(() => import('./pages/Billing'))
 const Settings = lazy(() => import('./pages/Settings'))
 
 function PageLoader() {
@@ -68,8 +69,9 @@ function AppRoutes() {
         <Route path="customers" element={<Customers />} />
         <Route path="products" element={<Products />} />
         <Route path="ai" element={<AIAdvisor />} />
-        <Route path="marketing" element={<Marketing />} />
-        <Route path="settings" element={<Settings />} />
+          <Route path="marketing" element={<Marketing />} />
+          <Route path="billing" element={<Billing />} />
+          <Route path="settings" element={<Settings />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

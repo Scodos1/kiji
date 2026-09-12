@@ -43,6 +43,11 @@ class Sale(models.Model):
 
     class Meta:
         ordering = ['-sale_date', '-created_at']
+        indexes = [
+            models.Index(fields=['business', 'sale_date']),
+            models.Index(fields=['business', 'customer']),
+            models.Index(fields=['business', 'product']),
+        ]
 
     def save(self, *args, **kwargs):
         self.total_amount = Decimal(self.quantity) * Decimal(self.unit_price)

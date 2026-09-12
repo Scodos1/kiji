@@ -7,7 +7,7 @@ This layer feeds the dashboard and the AI advisor with structured data.
 from datetime import timedelta
 from decimal import Decimal
 
-from django.db.models import DecimalField, Max, Q, Sum, Value
+from django.db.models import Count, DecimalField, Max, Q, Sum, Value
 from django.db.models.functions import Coalesce, TruncDate
 from django.utils import timezone
 
@@ -241,6 +241,20 @@ def product_performance(business, period='30d'):
     ]
 
 
+def _status_from_last_date(last_date, now=None):
+    """Mirror Customer.status() logic without per-customer queries."""
+    if not last_date:
+        return 'inactive'
+    if now is None:
+        now = timezone.now()
+    days = (now - last_date).days
+    if days <= 30:
+        return 'active'
+    if days <= 60:
+        return 'at_risk'
+    return 'inactive'
+
+
 def customer_segments(business):
     # Single annotated query instead of 2 queries per customer (N+1).
     customers = (
@@ -258,8 +272,9 @@ def customer_segments(business):
     )
     counts = {'active': 0, 'at_risk': 0, 'inactive': 0}
     value = {'active': 0.0, 'at_risk': 0.0, 'inactive': 0.0}
+    now = timezone.now()
     for c in customers:
-        status = c.status()
+        status = _status_from_last_date(c.last_sale_ts, now)
         counts[status] += 1
         value[status] += float(c.spent or 0)
     return {

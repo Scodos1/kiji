@@ -26,6 +26,10 @@ class Expense(models.Model):
 
     class Meta:
         ordering = ['-expense_date', '-created_at']
+        indexes = [
+            models.Index(fields=['business', 'expense_date']),
+            models.Index(fields=['business', 'category']),
+        ]
 
     def __str__(self):
         return f'{self.get_category_display()}: {self.amount}'

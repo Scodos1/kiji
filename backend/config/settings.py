@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     'analytics',
     'ai_advisor',
     'marketing',
+    'billing',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,10 +121,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files
+# Static files — WhiteNoise serves frontend/dist + Django admin in production
 STATIC_URL = 'static/'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -167,8 +169,12 @@ LLM_API_KEY = os.getenv('LLM_API_KEY', '')
 LLM_MODEL = os.getenv('LLM_MODEL', 'gpt-4o-mini')
 LLM_BASE_URL = os.getenv('LLM_BASE_URL', '')
 
-# Free tier AI query cap per user per month
+# Free tier AI query cap per user per month (fallback when billing inactive)
 AI_FREE_MONTHLY_QUERIES = int(os.getenv('AI_FREE_MONTHLY_QUERIES', '5'))
+
+# Paystack (billing) — set PAYSTACK_SECRET_KEY to enable real charges
+PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY', '')
+PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY', '')
 
 # ---------------------------------------------------------------------------
 # Production hardening — active when DJANGO_ENV=production

@@ -15,6 +15,11 @@ node_modules/
 dist/
 *.local
 
+# Archives — prevent stray zips (e.g. telegram_signal_copier) from being tracked
+*.zip
+*.tar.gz
+*.rar
+
 # Editor / OS
 .vscode/
 .idea/

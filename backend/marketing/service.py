@@ -21,24 +21,40 @@ TONES = ['friendly', 'professional', 'exciting', 'polite']
 
 
 def find_opportunities(business, days=60):
-    """Customers who haven't purchased in the last `days` days."""
+    """Customers who haven't purchased in the last `days` days. Optimized to 1 query."""
+    from decimal import Decimal
+
+    from django.db.models import DecimalField, Max, Sum, Value
+    from django.db.models.functions import Coalesce
+
     from customers.models import Customer
 
     cutoff = timezone.now() - timezone.timedelta(days=days)
+    now = timezone.now()
+    rows = (
+        Customer.objects.filter(business=business)
+        .annotate(
+            last_sale_date=Max('sales__sale_date'),
+            total_spent=Coalesce(
+                Sum('sales__total_amount'),
+                Value(Decimal('0.00')),
+                output_field=DecimalField(max_digits=14, decimal_places=2),
+            ),
+        )
+        .values('id', 'name', 'phone', 'last_sale_date', 'total_spent')
+    )
     inactive = []
     total_value = 0.0
-    for c in Customer.objects.filter(business=business):
-        last = c.last_sale()
-        if not last or last.sale_date < cutoff:
-            spent = sum(float(s.total_amount) for s in c.sales.all())
+    for r in rows:
+        last_date = r['last_sale_date']
+        if not last_date or last_date < cutoff:
+            spent = float(r['total_spent'] or 0)
             total_value += spent
             inactive.append({
-                'id': c.id,
-                'name': c.name,
-                'phone': c.phone,
-                'days_since_purchase': (
-                    (timezone.now() - last.sale_date).days if last else None
-                ),
+                'id': r['id'],
+                'name': r['name'],
+                'phone': r['phone'],
+                'days_since_purchase': (now - last_date).days if last_date else None,
                 'total_spent': round(spent, 2),
             })
     return {

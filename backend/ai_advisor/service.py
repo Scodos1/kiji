@@ -274,7 +274,7 @@ def generate_insights(business):
 
 
 class AIBudget:
-    """Simple monthly query cap per user (Free = 5)."""
+    """Simple monthly query cap per user (Free = 5, or billing plan limit)."""
 
     @staticmethod
     def free_monthly():
@@ -284,6 +284,15 @@ class AIBudget:
 
     @classmethod
     def remaining(cls, user):
+        # Prefer billing plan limit if billing app is installed
+        try:
+            from billing.service import remaining_queries as billing_remaining
+
+            remaining, _limit, _used = billing_remaining(user)
+            return remaining
+        except Exception:
+            pass
+
         start = timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         from ai_advisor.models import AIQuery
 
