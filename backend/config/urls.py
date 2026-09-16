@@ -1,8 +1,10 @@
 import os
 
+from django.conf import settings
 from django.contrib import admin
 from django.http import JsonResponse
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve as static_serve
 
 
 def health(request):
@@ -26,6 +28,13 @@ urlpatterns = [
     path('api/billing/', include('billing.urls')),
     path('health/', health, name='health'),
 ]
+
+_frontend_dist = os.path.join(settings.BASE_DIR.parent, 'frontend', 'dist')
+if os.path.isdir(_frontend_dist):
+    urlpatterns += [
+        re_path(r'^(?:assets/.*)$', static_serve, {'document_root': _frontend_dist}),
+        re_path(r'^(?!api/|admin/).*$', static_serve, {'document_root': _frontend_dist, 'path': 'index.html'}),
+    ]
 
 handler404 = 'config.views.api_not_found'
 handler500 = 'config.views.api_server_error'
