@@ -8,18 +8,17 @@ RUN npm run build
 
 FROM python:3.13-slim AS backend
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
-WORKDIR /app
+WORKDIR /app/backend
 
 RUN apt-get update && apt-get install -y --no-install-recommends libpq5 && rm -rf /var/lib/apt/lists/*
 
 COPY backend/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY docker-entrypoint.sh /app/docker-entrypoint.sh
-RUN chmod +x /app/docker-entrypoint.sh
+COPY backend/ ./
+COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 
-COPY backend/ ./backend/
-COPY --from=frontend-build /app/frontend/dist ./frontend/dist
+RUN python manage.py collectstatic --noinput 2>/dev/null || true
 
 EXPOSE 8000
-CMD ["/app/docker-entrypoint.sh"]
+CMD ["gunicorn", "config.wsgi", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120", "--access-logfile", "-", "--error-logfile", "-"]
