@@ -22,5 +22,9 @@ RUN chmod +x /app/docker-entrypoint.sh
 COPY backend/ /app/backend/
 COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 
+WORKDIR /app/backend
+RUN python manage.py collectstatic --noinput 2>/dev/null || true
+
 EXPOSE 8000
-CMD ["/app/docker-entrypoint.sh"]
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
