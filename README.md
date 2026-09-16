@@ -22,7 +22,7 @@
 | **Analytics** `analytics/service.py:44` | `/api/analytics/overview`, `/revenue`, `/expenses`, `/products`, `/customers` → `Dashboard.jsx` | Periods `7d/30d/90d/1y`, daily buckets `TruncDate` TZ-aware, trends `%` |
 | **AI Advisor** `ai_advisor/service.py:202` | `POST /api/ai/ask`, `GET /api/ai/insights` → `AIAdvisor.jsx` | LLM (`LLM_API_KEY`/`LLM_BASE_URL` `backend/.env.example:26`) or rule-based fallback; cap `AI_FREE_MONTHLY_QUERIES=5`; never invents numbers |
 | **Marketing** `marketing/service.py:87` | `/api/marketing/opportunities`, `/campaigns` → `Marketing.jsx` | Inactive-customer detection (60d), template + optional LLM, `wa.me` links with `234` normalization |
-| **Demo** `accounts/management/commands/seed_demo_data.py:60` | `python manage.py seed_demo_data` | Demo user `demo@kiji.test` / `DemoPass@2026!` + 150 sales, 10 customers |
+| **Demo** `accounts/management/commands/seed_demo_data.py:60` | `python manage.py seed_demo_data` | Demo user with pre-filled business data (set `DEMO_PASSWORD` env var)
 
 ## Project layout
 
@@ -45,7 +45,7 @@ python -m venv .venv && .venv\Scripts\activate   # or use repo .venv at ../.venv
 pip install -r requirements.txt
 cp .env.example .env   # edit SECRET_KEY, LLM_API_KEY optional, DATABASE_URL optional
 python manage.py migrate
-python manage.py seed_demo_data   # optional: demo data
+python manage.py seed_demo_data   # optional: demo data (set DEMO_PASSWORD env var)
 python manage.py runserver 8000  # http://localhost:8000/health/ → {"status":"ok"}
 ```
 

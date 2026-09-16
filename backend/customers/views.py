@@ -4,14 +4,16 @@ from decimal import Decimal
 from django.db.models import Count, DecimalField, Max, Q, Sum, Value
 from django.db.models.functions import Coalesce
 from django.utils import timezone
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 
+from config.permissions import IsBusinessOwner
 from .models import Customer
 from .serializers import CustomerSerializer
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
+    permission_classes = [permissions.IsAuthenticated, IsBusinessOwner]
 
     def get_queryset(self):
         business = self.request.user.businesses.first()

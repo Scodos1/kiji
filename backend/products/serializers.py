@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from config.utils import sanitize_text
 from .models import Product
 
 
@@ -11,6 +12,21 @@ class ProductSerializer(serializers.ModelSerializer):
             'cost_price', 'stock_quantity', 'created_at', 'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def validate_name(self, value):
+        value = sanitize_text(value)
+        business = self.context['request'].user.businesses.first()
+        qs = Product.objects.filter(business=business, name=value)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError(
+                'You already have a product with this name.'
+            )
+        return value
+
+    def validate_description(self, value):
+        return sanitize_text(value)
 
     def validate_selling_price(self, value):
         if value <= 0:
@@ -25,17 +41,6 @@ class ProductSerializer(serializers.ModelSerializer):
     def validate_stock_quantity(self, value):
         if value < 0:
             raise serializers.ValidationError('Stock quantity cannot be negative.')
-        return value
-
-    def validate_name(self, value):
-        business = self.context['request'].user.businesses.first()
-        qs = Product.objects.filter(business=business, name=value)
-        if self.instance:
-            qs = qs.exclude(pk=self.instance.pk)
-        if qs.exists():
-            raise serializers.ValidationError(
-                'You already have a product with this name.'
-            )
         return value
 
     def validate(self, attrs):

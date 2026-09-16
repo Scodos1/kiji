@@ -3,10 +3,15 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from . import views
 
+
+class ThrottledTokenRefreshView(TokenRefreshView):
+    throttle_classes = [views.AuthThrottle]
+
+
 urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('login/', views.LoginView.as_view(), name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
+    path('token/refresh/', ThrottledTokenRefreshView.as_view(), name='token-refresh'),
     path('me/', views.MeView.as_view(), name='me'),
     path('password/', views.PasswordChangeView.as_view(), name='password-change'),
 ]

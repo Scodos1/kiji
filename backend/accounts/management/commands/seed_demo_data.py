@@ -7,6 +7,7 @@ Creates (or resets) a demo user with a populated business so testers can
 immediately explore the dashboard, analytics, AI advisor and marketing.
 """
 
+import os
 import random
 from datetime import timedelta
 
@@ -21,7 +22,7 @@ from products.models import Product
 from sales.models import Sale
 
 DEMO_EMAIL = 'demo@kiji.test'
-DEMO_PASSWORD = 'DemoPass@2026!'
+DEMO_PASSWORD = os.getenv('DEMO_PASSWORD', 'ChangeMe!2026')
 
 PRODUCTS = [
     ('Sneakers', '45000', '30000', 40),

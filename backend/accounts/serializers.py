@@ -6,7 +6,7 @@ User = get_user_model()
 
 class PasswordChangeSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
-    new_password = serializers.CharField(write_only=True, min_length=8)
+    new_password = serializers.CharField(write_only=True, min_length=10)
 
     def validate_old_password(self, value):
         user = self.context['request'].user
@@ -19,7 +19,7 @@ class PasswordChangeSerializer(serializers.Serializer):
         from django.core.exceptions import ValidationError as DjangoValidationError
 
         try:
-            validate_password(value)
+            validate_password(value, self.context['request'].user)
         except DjangoValidationError as exc:
             raise serializers.ValidationError(list(exc.messages))
         return value
@@ -32,8 +32,8 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=8)
-    name = serializers.CharField(source='first_name', write_only=True)
+    password = serializers.CharField(write_only=True, min_length=10)
+    name = serializers.CharField(source='first_name', write_only=True, max_length=150)
 
     class Meta:
         model = User
@@ -62,9 +62,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             email=email,
             password=password,
-            # Use the full email as the username: deriving it from the local
-            # part (alice@gmail.com -> 'alice') collides across domains and
-            # raises an IntegrityError (HTTP 500).
             username=email[:150],
             first_name=name,
         )

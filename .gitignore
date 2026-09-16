@@ -6,6 +6,9 @@ __pycache__/
 venv/
 env/
 .env
+.env.*
+!.env.example
+!.env.db.example
 staticfiles/
 backups/
 *.log
@@ -15,7 +18,7 @@ node_modules/
 dist/
 *.local
 
-# Archives — prevent stray zips (e.g. telegram_signal_copier) from being tracked
+# Archives — prevent stray zips from being tracked
 *.zip
 *.tar.gz
 *.rar
@@ -25,3 +28,9 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Security — never commit secrets
+*.pem
+*.key
+*.crt
+id_rsa

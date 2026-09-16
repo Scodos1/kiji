@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from config.utils import sanitize_text
 from .models import Customer
 
 
@@ -16,6 +17,18 @@ class CustomerSerializer(serializers.ModelSerializer):
             'last_purchase', 'status', 'created_at', 'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def validate_name(self, value):
+        return sanitize_text(value)
+
+    def validate_phone(self, value):
+        return sanitize_text(value)
+
+    def validate_email(self, value):
+        value = sanitize_text(value)
+        if value and '@' not in value:
+            raise serializers.ValidationError('Enter a valid email address.')
+        return value
 
     def validate(self, attrs):
         business = self.context['request'].user.businesses.first()

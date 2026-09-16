@@ -1,14 +1,19 @@
+import os
+
 from django.contrib import admin
-from django.urls import include, path
 from django.http import JsonResponse
+from django.urls import include, path
 
 
 def health(request):
     return JsonResponse({'status': 'ok'})
 
 
+_admin_secret = os.getenv('ADMIN_SECRET_KEY', '')
+admin_url = f'admin/{_admin_secret}/' if _admin_secret else 'admin/'
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(admin_url, admin.site.urls),
     path('api/auth/', include('accounts.urls')),
     path('api/business/', include('businesses.urls')),
     path('api/products/', include('products.urls')),

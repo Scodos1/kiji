@@ -1,11 +1,13 @@
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 
+from config.permissions import IsBusinessOwner
 from .models import Sale
 from .serializers import SaleSerializer
 
 
 class SaleViewSet(viewsets.ModelViewSet):
     serializer_class = SaleSerializer
+    permission_classes = [permissions.IsAuthenticated, IsBusinessOwner]
 
     def get_queryset(self):
         business = self.request.user.businesses.first()

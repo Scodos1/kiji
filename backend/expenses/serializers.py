@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from config.utils import sanitize_text
 from .models import Expense
 
 
@@ -13,6 +14,9 @@ class ExpenseSerializer(serializers.ModelSerializer):
             'description', 'expense_date', 'created_at',
         ]
         read_only_fields = ['id', 'created_at']
+
+    def validate_description(self, value):
+        return sanitize_text(value)
 
     def validate_amount(self, value):
         if value <= 0:
