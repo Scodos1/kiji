@@ -37,7 +37,7 @@ if IS_PRODUCTION:
 
 ALLOWED_HOSTS = [
     h.strip()
-    for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver,.up.railway.app').split(',')
+    for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver,.up.railway.app,web-production-92d0a.up.railway.app').split(',')
     if h.strip()
 ]
 
