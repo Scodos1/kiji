@@ -35,11 +35,7 @@ DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes')
 if IS_PRODUCTION:
     DEBUG = False
 
-ALLOWED_HOSTS = [
-    h.strip()
-    for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver,web-production-92d0a.up.railway.app').split(',')
-    if h.strip()
-]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
