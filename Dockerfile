@@ -23,4 +23,4 @@ COPY --from=frontend-build /app/frontend/dist ./frontend/dist
 RUN python backend/manage.py collectstatic --noinput || true
 
 EXPOSE 8000
-CMD ["sh", "-c", "python backend/manage.py migrate --noinput && gunicorn config.wsgi --chdir backend --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 60"]
+CMD ["sh", "-c", "python backend/manage.py migrate --noinput && gunicorn backend.config.wsgi --bind 0.0.0.0:${PORT:-8000} --workers 3 --timeout 60 --access-logfile - --error-logfile -"]
