@@ -87,26 +87,25 @@ export default function Onboarding() {
     <div className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4 py-8">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 font-display text-xl font-bold text-white">
-            ₦
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-brand-800 font-display text-xl font-bold text-white">
+            K
           </div>
           <h1 className="font-display text-xl font-bold text-slate-900">
             {step === 1 && 'Set up your business'}
             {step === 2 && 'Add your first product'}
-            {step === 3 && 'You’re all set 🎉'}
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            {step === 1 && 'Step 1 of 2 — tell us about your business'}
-            {step === 2 && 'Step 2 of 2 — you can add more later'}
+            {step === 1 && 'Step 1 of 2. Tell us about your business.'}
+            {step === 2 && 'Step 2 of 2. You can add more later.'}
           </p>
           <div className="mx-auto mt-4 flex max-w-[160px] gap-1.5">
-            <div className={`h-1.5 flex-1 rounded-full ${step >= 1 ? 'bg-brand-600' : 'bg-slate-200'}`} />
-            <div className={`h-1.5 flex-1 rounded-full ${step >= 2 ? 'bg-brand-600' : 'bg-slate-200'}`} />
+            <div className={`h-1.5 flex-1 rounded ${step >= 1 ? 'bg-brand-700' : 'bg-slate-200'}`} />
+            <div className={`h-1.5 flex-1 rounded ${step >= 2 ? 'bg-brand-700' : 'bg-slate-200'}`} />
           </div>
         </div>
 
         {step === 1 && (
-          <form onSubmit={handleBusiness} className="space-y-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+          <form onSubmit={handleBusiness} className="space-y-4 rounded-lg border border-slate-100 bg-white p-6 shadow-sm">
             <Input
               label="Business name"
               value={business.name}
@@ -130,20 +129,20 @@ export default function Onboarding() {
               label="Currency"
               value={business.currency}
               options={[
-                { value: 'NGN', label: 'Nigerian Naira (₦)' },
+                { value: 'NGN', label: 'Nigerian Naira (N)' },
                 { value: 'USD', label: 'US Dollar ($)' },
               ]}
               onChange={(e) => setBusiness({ ...business, currency: e.target.value })}
             />
-            {error && <div className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
+            {error && <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Saving…' : 'Continue'}
+              {loading ? 'Saving...' : 'Continue'}
             </Button>
           </form>
         )}
 
         {step === 2 && (
-          <form onSubmit={handleProduct} className="space-y-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+          <form onSubmit={handleProduct} className="space-y-4 rounded-lg border border-slate-100 bg-white p-6 shadow-sm">
             <Input
               label="What do you sell?"
               value={product.name}
@@ -153,7 +152,7 @@ export default function Onboarding() {
             />
             <div className="grid grid-cols-2 gap-3">
               <Input
-                label="Selling price (₦)"
+                label="Selling price (N)"
                 type="number"
                 value={product.selling_price}
                 onChange={(e) => setProduct({ ...product, selling_price: e.target.value })}
@@ -161,7 +160,7 @@ export default function Onboarding() {
                 required
               />
               <Input
-                label="Cost price (₦)"
+                label="Cost price (N)"
                 type="number"
                 value={product.cost_price}
                 onChange={(e) => setProduct({ ...product, cost_price: e.target.value })}
@@ -169,11 +168,11 @@ export default function Onboarding() {
               />
             </div>
             <p className="text-xs text-slate-400">
-              Cost price is what you paid for it — it helps us calculate your real profit.
+              Cost price is what you paid for it. It helps us calculate your real profit.
             </p>
-            {error && <div className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
+            {error && <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Saving…' : 'Save & Go to Dashboard'}
+              {loading ? 'Saving...' : 'Save & Go to Dashboard'}
             </Button>
             <button
               type="button"

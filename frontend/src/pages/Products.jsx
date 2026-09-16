@@ -140,7 +140,7 @@ export default function Products() {
                       <td className="px-5 py-3 text-slate-600">{naira(p.cost_price)}</td>
                       <td className="px-5 py-3">
                         {m != null && (
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${m >= 30 ? 'bg-emerald-50 text-emerald-700' : m >= 0 ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-600'}`}>
+                          <span className={`rounded px-2.5 py-1 text-xs font-semibold ${m >= 30 ? 'bg-emerald-50 text-emerald-700' : m >= 0 ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-600'}`}>
                             {m}%
                           </span>
                         )}
@@ -197,7 +197,7 @@ export default function Products() {
               Cancel
             </Button>
             <Button type="submit" className="flex-1" disabled={saving}>
-              {saving ? 'Saving…' : editing ? 'Save Changes' : 'Add Product'}
+              {saving ? 'Saving...' : editing ? 'Save Changes' : 'Add Product'}
             </Button>
           </div>
         </form>

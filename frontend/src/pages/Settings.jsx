@@ -152,7 +152,7 @@ export default function Settings() {
             {saved && <Alert type="success">Settings saved successfully.</Alert>}
             {error && <Alert type="danger">{error}</Alert>}
             <Button type="submit" disabled={saving}>
-              {saving ? 'Saving…' : 'Save Changes'}
+              {saving ? 'Saving...' : 'Save Changes'}
             </Button>
           </form>
 
@@ -171,7 +171,7 @@ export default function Settings() {
                 type="password"
                 value={pw.new_password}
                 onChange={(e) => setPw({ ...pw, new_password: e.target.value })}
-                placeholder="At least 8 characters"
+                placeholder="At least 10 characters"
                 required
               />
               <Input
@@ -184,7 +184,7 @@ export default function Settings() {
               {pwSaved && <Alert type="success">Password updated successfully.</Alert>}
               {pwError && <Alert type="danger">{pwError}</Alert>}
               <Button type="submit" variant="secondary" disabled={pwSaving}>
-                {pwSaving ? 'Updating…' : 'Update Password'}
+                {pwSaving ? 'Updating...' : 'Update Password'}
               </Button>
             </Card>
           </form>

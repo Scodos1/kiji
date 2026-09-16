@@ -124,7 +124,7 @@ export default function Sales() {
           <div className="p-6">
             <EmptyState
               title="No sales yet"
-              message="Record your first sale — it takes under 10 seconds."
+              message="              Record your first sale. It takes under 10 seconds."
               action={<Button onClick={() => setModalOpen(true)}>+ Record Sale</Button>}
             />
           </div>
@@ -149,11 +149,11 @@ export default function Sales() {
                     <td className="px-5 py-3 font-medium text-slate-800">
                       {s.customer_name || 'Walk-in'}
                     </td>
-                    <td className="px-5 py-3 text-slate-600">{s.product_name || '—'}</td>
+                    <td className="px-5 py-3 text-slate-600">{s.product_name || '-'}</td>
                     <td className="px-5 py-3 text-slate-600">{s.quantity}</td>
                     <td className="px-5 py-3 font-semibold text-slate-900">{naira(s.total_amount)}</td>
                     <td className="px-5 py-3">
-                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs capitalize text-slate-600">
+                      <span className="rounded bg-slate-100 px-2.5 py-1 text-xs capitalize text-slate-600">
                         {s.payment_method}
                       </span>
                     </td>
@@ -213,7 +213,7 @@ export default function Sales() {
             options={PAYMENT_OPTIONS}
             onChange={(e) => setForm({ ...form, payment_method: e.target.value })}
           />
-          <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+          <div className="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3">
             <span className="text-sm font-medium text-slate-500">Total</span>
             <span className="font-display text-lg font-bold text-slate-900">{naira(total)}</span>
           </div>
@@ -223,7 +223,7 @@ export default function Sales() {
               Cancel
             </Button>
             <Button type="submit" className="flex-1" disabled={saving}>
-              {saving ? 'Saving…' : 'Record Sale'}
+              {saving ? 'Saving...' : 'Record Sale'}
             </Button>
           </div>
         </form>

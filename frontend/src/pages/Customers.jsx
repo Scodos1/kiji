@@ -93,7 +93,7 @@ export default function Customers() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">Customers</h1>
-          <p className="text-sm text-slate-500">Know who buys from you</p>
+          <p className="text-sm text-slate-500">Track your customers and their purchases</p>
         </div>
         <Button onClick={openAdd} className="!px-5">
           + Add Customer
@@ -120,7 +120,7 @@ export default function Customers() {
       <Card>
         <div className="border-b border-slate-100 p-4">
           <Input
-            placeholder="Search by name or phone…"
+            placeholder="Search by name or phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="max-w-xs"
@@ -197,7 +197,7 @@ export default function Customers() {
           />
           {error && <div className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
           <Button type="submit" className="w-full" disabled={saving}>
-            {saving ? 'Saving…' : editing ? 'Save Changes' : 'Add Customer'}
+            {saving ? 'Saving...' : editing ? 'Save Changes' : 'Add Customer'}
           </Button>
         </form>
       </Modal>
@@ -206,15 +206,15 @@ export default function Customers() {
         {selected && (
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-3 text-center">
-              <div className="rounded-xl bg-slate-50 p-4">
+              <div className="rounded-lg bg-slate-50 p-4">
                 <p className="text-xs text-slate-400">Purchases</p>
                 <p className="mt-1 font-display text-xl font-bold text-slate-900">{selected.total_purchases}</p>
               </div>
-              <div className="rounded-xl bg-slate-50 p-4">
+              <div className="rounded-lg bg-slate-50 p-4">
                 <p className="text-xs text-slate-400">Total Spent</p>
                 <p className="mt-1 font-display text-xl font-bold text-slate-900">{naira(selected.total_spent)}</p>
               </div>
-              <div className="rounded-xl bg-slate-50 p-4">
+              <div className="rounded-lg bg-slate-50 p-4">
                 <p className="text-xs text-slate-400">Last Purchase</p>
                 <p className="mt-1 text-sm font-bold text-slate-900">{relativeTime(selected.last_purchase)}</p>
               </div>
@@ -228,7 +228,7 @@ export default function Customers() {
                 href={`https://wa.me/${waNumber(selected.phone)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+                className="inline-flex w-full items-center justify-center rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
               >
                 Message on WhatsApp
               </a>
@@ -240,13 +240,13 @@ export default function Customers() {
                   setSelected(null)
                   openEdit(c)
                 }}
-                className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                className="flex-1 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50"
               >
                 Edit details
               </button>
               <button
                 onClick={() => remove(selected.id)}
-                className="flex-1 rounded-xl border border-red-100 px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50"
+                className="flex-1 rounded-lg border border-red-100 px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50"
               >
                 Delete
               </button>

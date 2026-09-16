@@ -25,7 +25,7 @@ function TrendText({ change }) {
   const up = change >= 0
   return (
     <span className={`text-sm font-semibold ${up ? 'text-emerald-600' : 'text-red-600'}`}>
-      {up ? '↑' : '↓'} {Math.abs(change)}% vs previous period
+      {up ? '+' : ''}{Math.abs(change)}% vs previous period
     </span>
   )
 }
@@ -82,14 +82,14 @@ export default function Dashboard() {
           </h1>
           <p className="text-sm text-slate-500">How is your business doing?</p>
         </div>
-        <div className="flex gap-1 rounded-xl border border-slate-200 bg-white p-1">
+        <div className="flex gap-1 rounded-lg border border-slate-200 bg-white p-1">
           {PERIODS.map((p) => (
             <button
               key={p.value}
               onClick={() => setPeriod(p.value)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
+              className={`rounded px-3 py-1.5 text-xs font-semibold transition-colors ${
                 period === p.value
-                  ? 'bg-brand-600 text-white'
+                  ? 'bg-brand-700 text-white'
                   : 'text-slate-500 hover:bg-slate-50'
               }`}
             >
@@ -102,20 +102,20 @@ export default function Dashboard() {
       {empty ? (
         <Card className="p-8">
           <div className="mx-auto max-w-md text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-3xl">
-              📊
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-700">
+              --
             </div>
             <h2 className="font-display text-lg font-bold text-slate-900">
-              Your dashboard is ready — now let’s fill it
+              Your dashboard is ready. Now let's fill it.
             </h2>
             <p className="mt-2 text-sm text-slate-500">
               Record your first sale to see your revenue, profit and insights appear here.
             </p>
             <Link
               to="/app/sales"
-              className="mt-5 inline-block rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-700"
+              className="mt-5 inline-block rounded-lg bg-brand-700 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-800"
             >
-              + Record your first sale
+              Record your first sale
             </Link>
           </div>
         </Card>
@@ -126,25 +126,25 @@ export default function Dashboard() {
               label="Revenue"
               value={naira(overview.revenue)}
               change={t.revenue_change}
-              icon="💰"
+              icon="R"
             />
             <StatCard
               label="Expenses"
               value={naira(overview.expenses)}
               change={t.expenses_change}
-              icon="💸"
+              icon="E"
             />
             <StatCard
               label="Profit"
               value={naira(overview.profit)}
               change={t.profit_change}
-              icon="📈"
+              icon="P"
             />
             <StatCard
               label="Profit Margin"
               value={`${overview.profit_margin}%`}
               change={t.margin_change}
-              icon="🎯"
+              icon="%"
             />
           </div>
 
@@ -160,8 +160,8 @@ export default function Dashboard() {
                 <AreaChart data={series} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.25} />
-                      <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#486581" stopOpacity={0.25} />
+                      <stop offset="95%" stopColor="#486581" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -175,9 +175,9 @@ export default function Dashboard() {
                   />
                   <Tooltip
                     formatter={(value) => naira(value)}
-                    contentStyle={{ borderRadius: 12, border: '1px solid #e2e8f0', fontSize: 12 }}
+                    contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }}
                   />
-                  <Area type="monotone" dataKey="revenue" stroke="#4f46e5" strokeWidth={2} fill="url(#rev)" name="Revenue" />
+                  <Area type="monotone" dataKey="revenue" stroke="#486581" strokeWidth={2} fill="url(#rev)" name="Revenue" />
                   <Area type="monotone" dataKey="expenses" stroke="#f59e0b" strokeWidth={2} fill="none" name="Expenses" />
                   <Area type="monotone" dataKey="profit" stroke="#10b981" strokeWidth={2} fill="none" name="Profit" />
                 </AreaChart>
@@ -195,13 +195,13 @@ export default function Dashboard() {
               </div>
               {overview.best_products.length === 0 ? (
                 <p className="py-8 text-center text-sm text-slate-400">
-                  No product sales yet — add products and record sales to see performance.
+                  No product sales yet. Add products and record sales to see performance.
                 </p>
               ) : (
                 <div className="space-y-3">
                   {overview.best_products.map((p, i) => (
                     <div key={p.product} className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-xs font-bold text-brand-600">
+                      <div className="flex h-8 w-8 items-center justify-center rounded bg-brand-50 text-xs font-bold text-brand-700">
                         {i + 1}
                       </div>
                       <div className="flex-1">
@@ -226,7 +226,7 @@ export default function Dashboard() {
                     {overview.recent_sales.map((s) => (
                       <div key={s.id} className="flex items-center justify-between text-sm">
                         <span className="font-medium text-slate-700">
-                          {s.customer} · {s.product}
+                          {s.customer} / {s.product}
                         </span>
                         <span className="flex items-center gap-3">
                           <span className="hidden text-xs text-slate-400 sm:inline">
@@ -241,19 +241,19 @@ export default function Dashboard() {
               </div>
             </Card>
 
-            <Card className="border-brand-100 bg-gradient-to-b from-brand-50 to-white p-5">
+            <Card className="border-brand-100 bg-brand-50/50 p-5">
               <div className="mb-3 flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand-600 text-white">
-                  🤖
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700 text-[10px] font-bold text-white">
+                  AI
                 </span>
                 <h3 className="font-display text-sm font-bold text-brand-900">AI Business Advisor</h3>
               </div>
               {insights.length === 0 ? (
-                <p className="text-sm text-slate-500">No insights yet — keep recording data.</p>
+                <p className="text-sm text-slate-500">No insights yet. Keep recording data.</p>
               ) : (
                 <div className="space-y-3">
                   {insights.slice(0, 3).map((ins, i) => (
-                    <div key={i} className="rounded-xl border border-brand-100 bg-white p-3">
+                    <div key={i} className="rounded-lg border border-brand-100 bg-white p-3">
                       <p className="text-xs font-bold text-brand-700">{ins.title}</p>
                       <p className="mt-1 text-xs leading-relaxed text-slate-600">{ins.message}</p>
                     </div>
@@ -262,7 +262,7 @@ export default function Dashboard() {
               )}
               <Link
                 to="/app/ai"
-                className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+                className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
               >
                 Ask AI
               </Link>

@@ -67,7 +67,7 @@ export default function Marketing() {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // clipboard may be unavailable; ignore
+      // clipboard may be unavailable
     }
   }
 
@@ -83,26 +83,26 @@ export default function Marketing() {
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">
-          Turn your customers into repeat customers
+          Marketing
         </h1>
         <p className="text-sm text-slate-500">
-          Find opportunities and generate ready-to-send marketing messages.
+          Find inactive customers and generate ready-to-send marketing messages.
         </p>
       </div>
 
       {opportunities && opportunities.count > 0 && (
-        <Card className="border-brand-100 bg-gradient-to-r from-brand-50 to-white p-5">
+        <Card className="border-brand-100 bg-brand-50/50 p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 text-xl text-white">
-                📣
+              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-700 text-xs font-bold text-white">
+                M
               </span>
               <div>
                 <h3 className="font-display text-base font-bold text-brand-900">
                   {opportunities.count} inactive customers
                 </h3>
                 <p className="text-sm text-slate-500">
-                  Haven’t purchased in {opportunities.days}+ days — worth approximately{' '}
+                  Haven't purchased in {opportunities.days}+ days. Worth approximately{' '}
                   <span className="font-semibold text-slate-700">
                     {naira(opportunities.total_spent)}
                   </span>{' '}
@@ -110,7 +110,7 @@ export default function Marketing() {
                 </p>
               </div>
             </div>
-            <a href="#generator" className="rounded-xl bg-brand-600 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-700">
+            <a href="#generator" className="rounded-lg bg-brand-700 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-800">
               Create Campaign
             </a>
           </div>
@@ -119,7 +119,7 @@ export default function Marketing() {
 
       {opportunities && opportunities.count === 0 && (
         <Alert type="success">
-          Great news — no inactive customers right now. Everyone has purchased recently.
+          No inactive customers right now. Everyone has purchased recently.
         </Alert>
       )}
 
@@ -151,7 +151,7 @@ export default function Marketing() {
               />
             )}
             <Button type="submit" className="w-full" disabled={generating}>
-              {generating ? 'Generating…' : 'Generate Campaign'}
+              {generating ? 'Generating...' : 'Generate Campaign'}
             </Button>
           </form>
         </Card>
@@ -160,8 +160,8 @@ export default function Marketing() {
           {!campaign && (
             <Card className="flex h-full min-h-[200px] items-center justify-center p-6 text-center">
               <div>
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
-                  ✨
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-xs font-bold text-slate-500">
+                  --
                 </div>
                 <p className="text-sm text-slate-500">
                   Generate a campaign to see your ready-to-send message here.
@@ -177,18 +177,18 @@ export default function Marketing() {
                   Campaign message
                 </h3>
                 {campaign.llm_enhanced && (
-                  <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[10px] font-bold uppercase text-brand-600">
+                  <span className="rounded bg-brand-100 px-2.5 py-1 text-[10px] font-bold uppercase text-brand-700">
                     AI enhanced
                   </span>
                 )}
               </div>
-              <div className="rounded-xl bg-slate-50 p-4">
+              <div className="rounded-lg bg-slate-50 p-4">
                 <p className="text-sm leading-relaxed text-slate-700">{campaign.template}</p>
                 <p className="mt-2 text-xs text-slate-400">{campaign.cta}</p>
               </div>
               <div className="mt-4 flex gap-3">
                 <Button variant="secondary" className="flex-1" onClick={() => copy(campaign.template)}>
-                  {copied ? '✓ Copied' : 'Copy'}
+                  {copied ? 'Copied' : 'Copy'}
                 </Button>
                 <Button
                   className="flex-1"
@@ -207,7 +207,7 @@ export default function Marketing() {
               </h3>
               <div className="max-h-72 space-y-3 overflow-y-auto">
                 {campaign.messages.slice(0, 20).map((m) => (
-                  <div key={m.customer_id || m.phone} className="rounded-xl border border-slate-100 p-3">
+                  <div key={m.customer_id || m.phone} className="rounded-lg border border-slate-100 p-3">
                     <div className="mb-1.5 flex items-center justify-between">
                       <p className="text-sm font-semibold text-slate-800">{m.name}</p>
                       {m.wa_link && (
@@ -217,7 +217,7 @@ export default function Marketing() {
                           rel="noreferrer"
                           className="text-xs font-semibold text-emerald-600 hover:underline"
                         >
-                          Send via WhatsApp →
+                          Send via WhatsApp
                         </a>
                       )}
                     </div>

@@ -17,6 +17,8 @@ const AIAdvisor = lazy(() => import('./pages/AIAdvisor'))
 const Marketing = lazy(() => import('./pages/Marketing'))
 const Billing = lazy(() => import('./pages/Billing'))
 const Settings = lazy(() => import('./pages/Settings'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
+const Terms = lazy(() => import('./pages/Terms'))
 
 function PageLoader() {
   return (
@@ -47,6 +49,8 @@ function AppRoutes() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<Terms />} />
       <Route
         path="/onboarding"
         element={

@@ -6,7 +6,7 @@ export const naira = (value) =>
   }).format(Number(value || 0))
 
 export const formatDate = (iso) => {
-  if (!iso) return '—'
+  if (!iso) return '-'
   const d = new Date(iso)
   return d.toLocaleDateString('en-NG', {
     day: 'numeric',
@@ -24,7 +24,7 @@ export const relativeTime = (iso) => {
 }
 
 export const statusMeta = {
-  active: { label: 'Active', color: 'bg-emerald-50 text-emerald-700', dot: '🟢' },
-  at_risk: { label: 'At Risk', color: 'bg-amber-50 text-amber-700', dot: '🟡' },
-  inactive: { label: 'Inactive', color: 'bg-slate-100 text-slate-600', dot: '🔴' },
+  active: { label: 'Active', color: 'bg-emerald-50 text-emerald-700', dot: 'A' },
+  at_risk: { label: 'At Risk', color: 'bg-amber-50 text-amber-700', dot: 'R' },
+  inactive: { label: 'Inactive', color: 'bg-slate-100 text-slate-600', dot: 'I' },
 }

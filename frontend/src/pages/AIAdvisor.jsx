@@ -49,7 +49,7 @@ export default function AIAdvisor() {
           AI Business Advisor
         </h1>
         <p className="text-sm text-slate-500">
-          Ask anything about your business — I answer from your own data.
+          Ask anything about your business. Answers come from your own data.
         </p>
         {remaining != null && (
           <p className="mt-1 text-xs font-medium text-brand-600">
@@ -62,8 +62,8 @@ export default function AIAdvisor() {
         <div className="flex-1 space-y-4 overflow-y-auto p-5">
           {messages.length === 0 && (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 text-3xl">
-                🤖
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-brand-100 text-xs font-bold text-brand-700">
+                AI
               </div>
               <h2 className="font-display text-lg font-bold text-slate-900">
                 How can I help you understand your business?
@@ -73,7 +73,7 @@ export default function AIAdvisor() {
                   <button
                     key={s}
                     onClick={() => ask(s)}
-                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                    className="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
                   >
                     {s}
                   </button>
@@ -85,12 +85,12 @@ export default function AIAdvisor() {
           {messages.map((m, i) => (
             <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                className={`max-w-[85%] rounded-lg px-4 py-3 text-sm leading-relaxed ${
                   m.role === 'user'
-                    ? 'rounded-br-md bg-brand-600 text-white'
+                    ? 'rounded-br-sm bg-brand-700 text-white'
                     : m.error
-                      ? 'rounded-bl-md bg-red-50 text-red-700'
-                      : 'rounded-bl-md bg-slate-100 text-slate-800'
+                      ? 'rounded-bl-sm bg-red-50 text-red-700'
+                      : 'rounded-bl-sm bg-slate-100 text-slate-800'
                 }`}
               >
                 {m.content}
@@ -99,9 +99,9 @@ export default function AIAdvisor() {
           ))}
           {loading && (
             <div className="flex justify-start">
-              <div className="flex items-center gap-2 rounded-2xl rounded-bl-md bg-slate-100 px-4 py-3">
+              <div className="flex items-center gap-2 rounded-lg rounded-bl-sm bg-slate-100 px-4 py-3">
                 <Spinner className="h-4 w-4" />
-                <span className="text-sm text-slate-500">Analyzing your business…</span>
+                <span className="text-sm text-slate-500">Analyzing your business...</span>
               </div>
             </div>
           )}
@@ -118,13 +118,13 @@ export default function AIAdvisor() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask anything about your business…"
-            className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+            placeholder="Ask anything about your business..."
+            className="flex-1 rounded-lg border border-slate-200 px-4 py-3 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-50"
+            className="rounded-lg bg-brand-700 px-5 text-sm font-semibold text-white hover:bg-brand-800 disabled:opacity-50"
           >
             Ask
           </button>

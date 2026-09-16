@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import api from '../api/client'
 import { Alert, Badge, Button, Card, Spinner } from '../components/ui'
 
-const PLAN_ICONS = { free: '🆓', starter: '🚀', pro: '⚡' }
-
 export default function Billing() {
   const [usage, setUsage] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -33,15 +31,14 @@ export default function Billing() {
     setSuccess('')
     try {
       const { data: init } = await api.post('/billing/initialize/', { plan })
-      // Mock mode: verify immediately with returned reference
       if (init.mock) {
         const { data: ver } = await api.post('/billing/verify/', { reference: init.reference })
-        setSuccess(`Upgraded to ${ver.plan}! ${init.mock ? '(mock — no charge)' : ''}`)
+        setSuccess(`Upgraded to ${ver.plan}! ${init.mock ? '(mock, no charge)' : ''}`)
         await load()
       } else if (init.authorization_url) {
         window.location.href = init.authorization_url
       } else {
-        setSuccess('Initialized — complete payment on Paystack, then verify.')
+        setSuccess('Initialized. Complete payment on Paystack, then verify.')
       }
     } catch (e) {
       setError(e.response?.data?.error || e.response?.data?.detail || 'Upgrade failed.')
@@ -79,14 +76,13 @@ export default function Billing() {
           <div>
             <h3 className="font-display text-sm font-bold text-slate-900">Current plan</h3>
             <p className="mt-1 flex items-center gap-2">
-              <span className="text-2xl">{PLAN_ICONS[usage.plan] || '💳'}</span>
               <span className="font-display text-lg font-bold text-slate-900">{usage.plan_label}</span>
               <Badge color={usage.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}>
                 {usage.is_active ? 'Active' : 'Inactive'}
               </Badge>
             </p>
             <p className="mt-1 text-sm text-slate-500">
-              ₦{usage.price_ngn.toLocaleString()}/month · {usage.limit} AI questions
+              N{usage.price_ngn.toLocaleString()}/month. {usage.limit} AI questions.
             </p>
           </div>
           <div className="text-right">
@@ -94,8 +90,8 @@ export default function Billing() {
               {usage.used} / {usage.limit} used
             </p>
             <p className="text-xs text-slate-400">{usage.remaining} remaining this month</p>
-            <div className="mt-2 h-2 w-32 overflow-hidden rounded-full bg-slate-100">
-              <div className="h-full bg-brand-600" style={{ width: `${Math.min(pct, 100)}%` }} />
+            <div className="mt-2 h-2 w-32 overflow-hidden rounded bg-slate-100">
+              <div className="h-full bg-brand-700" style={{ width: `${Math.min(pct, 100)}%` }} />
             </div>
           </div>
         </div>
@@ -108,21 +104,20 @@ export default function Billing() {
             const isCurrent = p.plan === usage.plan
             const isStarter = p.plan === 'starter'
             return (
-              <Card key={p.plan} className={`p-5 ${isCurrent ? 'ring-2 ring-brand-600' : ''} ${isStarter ? 'border-brand-200' : ''}`}>
+              <Card key={p.plan} className={`p-5 ${isCurrent ? 'ring-2 ring-brand-700' : ''} ${isStarter ? 'border-brand-200' : ''}`}>
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">{PLAN_ICONS[p.plan]}</span>
                   <h3 className="font-display text-sm font-bold capitalize text-slate-900">{p.plan}</h3>
                   {isCurrent && <Badge color="bg-brand-50 text-brand-700">Current</Badge>}
                 </div>
                 <p className="mt-2 font-display text-2xl font-bold text-slate-900">
-                  ₦{p.price_ngn.toLocaleString()}
+                  N{p.price_ngn.toLocaleString()}
                   <span className="text-sm font-normal text-slate-400">/mo</span>
                 </p>
                 <p className="mt-1 text-sm text-slate-500">{p.limit} AI questions / month</p>
                 <ul className="mt-3 space-y-1 text-xs text-slate-600">
-                  <li>✓ Rule-based insights always free</li>
-                  <li>✓ {p.limit >= 50 ? 'Priority support' : 'Community support'}</li>
-                  {p.limit >= 200 && <li>✓ Export + team sharing</li>}
+                  <li>- Rule-based insights always free</li>
+                  <li>- {p.limit >= 50 ? 'Priority support' : 'Community support'}</li>
+                  {p.limit >= 200 && <li>- Export + team sharing</li>}
                 </ul>
                 <Button
                   className="mt-4 w-full"
@@ -130,14 +125,14 @@ export default function Billing() {
                   disabled={isCurrent || !!action}
                   onClick={() => upgrade(p.plan)}
                 >
-                  {isCurrent ? 'Current plan' : action === p.plan ? 'Processing…' : p.price_ngn === 0 ? 'Downgrade' : `Upgrade to ${p.plan}`}
+                  {isCurrent ? 'Current plan' : action === p.plan ? 'Processing...' : p.price_ngn === 0 ? 'Downgrade' : `Upgrade to ${p.plan}`}
                 </Button>
               </Card>
             )
           })}
         </div>
         <p className="mt-3 text-xs text-slate-400">
-          Mock mode: no Paystack key → upgrades are instant mock (no charge). Set <code>PAYSTACK_SECRET_KEY</code> in <code>backend/.env</code> for real payments.
+          Mock mode: no Paystack key, upgrades are instant mock (no charge). Set PAYSTACK_SECRET_KEY in backend/.env for real payments.
         </p>
       </div>
 
@@ -146,9 +141,9 @@ export default function Billing() {
         <p className="mt-1 text-sm text-slate-500">Download daily revenue/expenses/profit as CSV for your accountant.</p>
         <a
           href="/api/analytics/export/?type=csv&period=30d"
-          className="mt-3 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50"
+          className="mt-3 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 border border-slate-200 hover:bg-slate-50"
         >
-          ⬇ Download CSV (30d)
+          Download CSV (30d)
         </a>
       </Card>
     </div>

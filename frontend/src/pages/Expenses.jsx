@@ -16,7 +16,7 @@ const CATEGORIES = [
   { value: 'other', label: 'Other' },
 ]
 
-const COLORS = ['#4f46e5', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#94a3b8']
+const COLORS = ['#486581', '#f59e0b', '#10b981', '#ef4444', '#06b6d4', '#ec4899', '#94a3b8', '#64748b']
 
 export default function Expenses() {
   const [expenses, setExpenses] = useState([])
@@ -181,11 +181,11 @@ export default function Expenses() {
                     <tr key={e.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
                       <td className="px-5 py-3 text-slate-500">{formatDate(e.expense_date)}</td>
                       <td className="px-5 py-3">
-                        <span className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium capitalize text-brand-700">
+                        <span className="rounded bg-brand-50 px-2.5 py-1 text-xs font-medium capitalize text-brand-700">
                           {e.category_display}
                         </span>
                       </td>
-                      <td className="px-5 py-3 text-slate-600">{e.description || '—'}</td>
+                      <td className="px-5 py-3 text-slate-600">{e.description || '-'}</td>
                       <td className="px-5 py-3 font-semibold text-slate-900">{naira(e.amount)}</td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex items-center justify-end gap-3">
