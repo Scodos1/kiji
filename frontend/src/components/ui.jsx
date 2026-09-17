@@ -88,7 +88,7 @@ export function Select({ label, options, error, className = '', ...props }) {
 export function Card({ children, className = '' }) {
   return (
     <div
-      className={`rounded-xl border border-slate-200/60 bg-white shadow-sm ${className}`}
+      className={`rounded-2xl border border-slate-200/80 bg-white shadow-sm ${className}`}
     >
       {children}
     </div>

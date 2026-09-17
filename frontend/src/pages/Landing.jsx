@@ -63,12 +63,25 @@ const STEPS = [
   { num: '3', title: 'See your insights', desc: 'Your dashboard updates instantly. AI tells you what to do next.' },
 ]
 
+function Dots() {
+  return (
+    <svg className="absolute inset-0 h-full w-full" aria-hidden="true">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="1.5" cy="1.5" r="1" fill="#065f46" fillOpacity="0.07" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)" />
+    </svg>
+  )
+}
+
 export default function Landing() {
   return (
     <div className="min-h-screen bg-[#d1fae5]">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 font-display text-sm font-bold text-white shadow-sm shadow-brand-600/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 font-display text-sm font-bold text-white shadow-md shadow-brand-700/25">
             K
           </div>
           <span className="font-display text-lg font-bold tracking-tight text-slate-900">Kiji</span>
@@ -82,7 +95,7 @@ export default function Landing() {
           </Link>
           <Link
             to="/register"
-            className="rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold text-white shadow-sm shadow-brand-600/20 transition-all hover:bg-brand-700 hover:shadow-md"
+            className="rounded-lg bg-brand-700 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-brand-700/25 transition-all hover:bg-brand-800 hover:shadow-lg"
           >
             Get Started Free
           </Link>
@@ -90,48 +103,51 @@ export default function Landing() {
       </header>
 
       <main>
-        <section className="px-6 pt-20 pb-20 text-center sm:pt-32 sm:pb-24">
-          <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-700">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
-            Built for Nigerian small businesses
+        <section className="relative overflow-hidden px-6 pt-24 pb-28 text-center sm:pt-36 sm:pb-32">
+          <Dots />
+          <div className="relative">
+            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-brand-200/60 bg-white/70 px-4 py-1.5 text-xs font-semibold text-brand-800 backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+              Built for Nigerian small businesses
+            </div>
+            <h1 className="mx-auto max-w-3xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
+              Know your business.
+              <br />
+              <span className="text-brand-700">Grow your profit.</span>
+            </h1>
+            <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              Manage your sales, expenses, customers and growth from one simple platform.
+              AI helps you understand your numbers and make smarter decisions.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                to="/register"
+                className="w-full rounded-xl bg-brand-700 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-700/25 transition-all hover:bg-brand-800 hover:shadow-xl hover:shadow-brand-700/30 sm:w-auto"
+              >
+                Get Started Free
+              </Link>
+              <a
+                href="#how-it-works"
+                className="w-full rounded-xl border border-emerald-300/60 bg-white/70 px-8 py-3.5 text-sm font-semibold text-slate-700 backdrop-blur-sm transition-all hover:border-emerald-400 hover:bg-white sm:w-auto"
+              >
+                See How It Works
+              </a>
+            </div>
+            <p className="mt-4 text-xs font-medium text-slate-400">Free to use. No credit card required.</p>
           </div>
-          <h1 className="mx-auto max-w-3xl font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
-            Know your business.
-            <br />
-            <span className="text-brand-600">Grow your profit.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-slate-500 sm:text-lg">
-            Manage your sales, expenses, customers and growth from one simple platform.
-            AI helps you understand your numbers and make smarter decisions.
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              to="/register"
-              className="w-full rounded-xl bg-brand-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-600/20 transition-all hover:bg-brand-700 hover:shadow-xl hover:shadow-brand-600/25 sm:w-auto"
-            >
-              Get Started Free
-            </Link>
-            <a
-              href="#how-it-works"
-              className="w-full rounded-xl border border-emerald-200 bg-[#ecfdf5] px-8 py-3.5 text-sm font-semibold text-slate-700 transition-colors hover:border-emerald-300 hover:bg-emerald-100 sm:w-auto"
-            >
-              See How It Works
-            </a>
-          </div>
-          <p className="mt-4 text-xs text-slate-400">Free to use. No credit card required.</p>
         </section>
 
-        <section className="border-t border-slate-100 bg-slate-50/80 px-6 py-20">
+        <section className="border-y border-emerald-200/40 bg-white/60 px-6 py-24 backdrop-blur-sm">
           <h2 className="text-center font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Everything your business needs to grow
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-sm text-slate-500">
             One platform to track your money, understand your customers, and make better decisions.
           </p>
-          <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-14 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((f) => (
-              <div key={f.title} className="group rounded-xl border border-slate-200/60 bg-white p-6 text-left shadow-sm transition-all hover:border-brand-200 hover:shadow-md">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
+              <div key={f.title} className="group relative rounded-2xl border border-slate-200/80 bg-white p-6 text-left shadow-sm transition-all duration-200 hover:border-brand-200 hover:shadow-lg hover:shadow-brand-900/5">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
                   {f.icon}
                 </div>
                 <h3 className="font-display text-base font-bold text-slate-900">{f.title}</h3>
@@ -141,17 +157,20 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="how-it-works" className="px-6 py-20">
+        <section id="how-it-works" className="px-6 py-24">
           <h2 className="text-center font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Start in three simple steps
           </h2>
           <p className="mx-auto mt-3 max-w-md text-center text-sm text-slate-500">
             No training needed. Most users record their first sale within 2 minutes of signing up.
           </p>
-          <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-3">
-            {STEPS.map((s) => (
-              <div key={s.num} className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 font-display text-lg font-bold text-white shadow-lg shadow-brand-600/20">
+          <div className="mx-auto mt-14 grid max-w-4xl gap-8 sm:grid-cols-3">
+            {STEPS.map((s, i) => (
+              <div key={s.num} className="relative text-center">
+                {i < STEPS.length - 1 && (
+                  <div className="absolute left-[calc(50%+32px)] top-6 hidden h-px w-[calc(100%-64px)] bg-emerald-300 sm:block" />
+                )}
+                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-700 font-display text-lg font-bold text-white shadow-lg shadow-brand-700/25 ring-4 ring-brand-100">
                   {s.num}
                 </div>
                 <h3 className="font-display text-base font-bold text-slate-900">{s.title}</h3>
@@ -161,22 +180,22 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="border-t border-slate-100 bg-slate-50/80 px-6 py-20">
+        <section className="border-y border-emerald-200/40 bg-white/60 px-6 py-24 backdrop-blur-sm">
           <h2 className="text-center font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             No accounting knowledge needed
           </h2>
           <p className="mx-auto mt-3 max-w-md text-center text-sm text-slate-500">
             We do not just show you charts. We tell you what they mean and what to do next.
           </p>
-          <div className="mx-auto mt-10 flex max-w-lg flex-col gap-3 text-left">
+          <div className="mx-auto mt-12 flex max-w-xl flex-col gap-4 text-left">
             {[
               'Record a sale in under 10 seconds',
               'Get plain-language answers from your business data',
               'Re-engage customers with ready-to-send messages',
             ].map((item) => (
-              <div key={item} className="flex items-center gap-3 rounded-xl border border-slate-200/60 bg-white p-4 shadow-sm">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                  <svg className="h-3.5 w-3.5 text-emerald-600" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <div key={item} className="flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-700">
+                  <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 8l3.5 3.5L13 5" />
                   </svg>
                 </span>
@@ -184,21 +203,33 @@ export default function Landing() {
               </div>
             ))}
           </div>
-          <div className="mt-12 text-center">
-            <Link
-              to="/register"
-              className="inline-block rounded-xl bg-brand-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-600/20 transition-all hover:bg-brand-700 hover:shadow-xl"
-            >
-              Start tracking free
-            </Link>
+        </section>
+
+        <section className="relative overflow-hidden px-6 py-24 text-center">
+          <Dots />
+          <div className="relative">
+            <h2 className="mx-auto max-w-2xl font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              Ready to take control of your business?
+            </h2>
+            <p className="mx-auto mt-4 max-w-md text-sm text-slate-500">
+              Join hundreds of Nigerian small businesses using Kiji to grow their profit.
+            </p>
+            <div className="mt-8">
+              <Link
+                to="/register"
+                className="inline-block rounded-xl bg-brand-700 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-700/25 transition-all hover:bg-brand-800 hover:shadow-xl hover:shadow-brand-700/30"
+              >
+                Start tracking free
+              </Link>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-slate-100 px-6 py-8">
+      <footer className="border-t border-emerald-200/40 bg-white/60 backdrop-blur-sm px-6 py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 font-display text-xs font-bold text-white">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-700 font-display text-xs font-bold text-white">
               K
             </div>
             <span className="text-sm font-semibold text-slate-600">Kiji</span>
