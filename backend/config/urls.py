@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import include, path, re_path
 
-from config.views import spa_index
+from config.views import serve_frontend
 
 
 def health(request):
@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/marketing/', include('marketing.urls')),
     path('api/billing/', include('billing.urls')),
     path('health/', health, name='health'),
-    re_path(r'^(?!api/|admin/).*$', spa_index),
+    re_path(r'^(?!api/|admin/)(?P<path>.*)$', serve_frontend),
 ]
 
 handler404 = 'config.views.api_not_found'

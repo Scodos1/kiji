@@ -19,8 +19,7 @@ RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 COPY backend/ /app/backend/
 COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 
-RUN python manage.py collectstatic --noinput
-RUN cp -r /app/frontend/dist/* /app/backend/staticfiles/ 2>/dev/null || true
+RUN python manage.py collectstatic --noinput 2>/dev/null || true
 
 EXPOSE 8000
 
