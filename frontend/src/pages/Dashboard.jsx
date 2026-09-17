@@ -169,8 +169,8 @@ export default function Dashboard() {
                 <AreaChart data={series} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -186,7 +186,7 @@ export default function Dashboard() {
                     formatter={(value) => naira(value)}
                     contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }}
                   />
-                  <Area type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={2} fill="url(#rev)" name="Revenue" />
+                  <Area type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={2} fill="url(#rev)" name="Revenue" />
                   <Area type="monotone" dataKey="expenses" stroke="#f59e0b" strokeWidth={2} fill="none" name="Expenses" />
                   <Area type="monotone" dataKey="profit" stroke="#10b981" strokeWidth={2} fill="none" name="Profit" />
                 </AreaChart>

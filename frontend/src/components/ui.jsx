@@ -183,7 +183,7 @@ export function EmptyState({ title, message, action, icon }) {
 
 export function Alert({ type = 'info', children }) {
   const styles = {
-    info: 'bg-blue-50 text-blue-800 border-blue-100',
+    info: 'bg-brand-50 text-brand-800 border-brand-100',
     success: 'bg-emerald-50 text-emerald-800 border-emerald-100',
     warning: 'bg-amber-50 text-amber-800 border-amber-100',
     danger: 'bg-red-50 text-red-800 border-red-100',
