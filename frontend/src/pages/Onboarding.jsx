@@ -84,28 +84,28 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4 py-8">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-brand-800 font-display text-xl font-bold text-white">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 font-display text-xl font-bold text-white shadow-xl shadow-brand-600/20">
             K
           </div>
           <h1 className="font-display text-xl font-bold text-slate-900">
             {step === 1 && 'Set up your business'}
             {step === 2 && 'Add your first product'}
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-slate-500">
             {step === 1 && 'Step 1 of 2. Tell us about your business.'}
             {step === 2 && 'Step 2 of 2. You can add more later.'}
           </p>
-          <div className="mx-auto mt-4 flex max-w-[160px] gap-1.5">
-            <div className={`h-1.5 flex-1 rounded ${step >= 1 ? 'bg-brand-700' : 'bg-slate-200'}`} />
-            <div className={`h-1.5 flex-1 rounded ${step >= 2 ? 'bg-brand-700' : 'bg-slate-200'}`} />
+          <div className="mx-auto mt-5 flex max-w-[180px] gap-2">
+            <div className={`h-1.5 flex-1 rounded-full transition-colors ${step >= 1 ? 'bg-brand-600' : 'bg-slate-200'}`} />
+            <div className={`h-1.5 flex-1 rounded-full transition-colors ${step >= 2 ? 'bg-brand-600' : 'bg-slate-200'}`} />
           </div>
         </div>
 
         {step === 1 && (
-          <form onSubmit={handleBusiness} className="space-y-4 rounded-lg border border-slate-100 bg-white p-6 shadow-sm">
+          <form onSubmit={handleBusiness} className="space-y-4 rounded-xl border border-slate-200/60 bg-white p-7 shadow-sm">
             <Input
               label="Business name"
               value={business.name}
@@ -134,7 +134,7 @@ export default function Onboarding() {
               ]}
               onChange={(e) => setBusiness({ ...business, currency: e.target.value })}
             />
-            {error && <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
+            {error && <div className="rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">{error}</div>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Saving...' : 'Continue'}
             </Button>
@@ -142,7 +142,7 @@ export default function Onboarding() {
         )}
 
         {step === 2 && (
-          <form onSubmit={handleProduct} className="space-y-4 rounded-lg border border-slate-100 bg-white p-6 shadow-sm">
+          <form onSubmit={handleProduct} className="space-y-4 rounded-xl border border-slate-200/60 bg-white p-7 shadow-sm">
             <Input
               label="What do you sell?"
               value={product.name}
@@ -170,14 +170,14 @@ export default function Onboarding() {
             <p className="text-xs text-slate-400">
               Cost price is what you paid for it. It helps us calculate your real profit.
             </p>
-            {error && <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-600">{error}</div>}
+            {error && <div className="rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">{error}</div>}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Saving...' : 'Save & Go to Dashboard'}
             </Button>
             <button
               type="button"
               onClick={skipProduct}
-              className="w-full text-center text-sm font-medium text-slate-400 hover:text-slate-600"
+              className="w-full text-center text-sm font-medium text-slate-400 transition-colors hover:text-slate-600"
             >
               Skip for now
             </button>

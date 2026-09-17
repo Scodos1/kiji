@@ -1,0 +1,1 @@
+function e(e,t){if(!e||typeof e!=`object`)return t;if(typeof e.detail==`string`)return e.detail;for(let t of Object.keys(e)){let n=e[t];if(Array.isArray(n)&&n.length)return n[0];if(typeof n==`string`)return n}return t}export{e as t};
