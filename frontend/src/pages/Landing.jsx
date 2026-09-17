@@ -113,7 +113,7 @@ export default function Landing() {
             </Link>
             <a
               href="#how-it-works"
-              className="w-full rounded-xl border border-slate-200 bg-white px-8 py-3.5 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 sm:w-auto"
+              className="w-full rounded-xl border border-emerald-200 bg-[#ecfdf5] px-8 py-3.5 text-sm font-semibold text-slate-700 transition-colors hover:border-emerald-300 hover:bg-emerald-100 sm:w-auto"
             >
               See How It Works
             </a>

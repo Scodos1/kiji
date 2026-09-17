@@ -18,7 +18,7 @@ export function Button({
     primary:
       'bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-sm disabled:bg-slate-200',
     secondary:
-      'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 active:bg-slate-100 shadow-sm disabled:opacity-50',
+      'bg-[#ecfdf5] text-slate-700 border border-emerald-200 hover:bg-emerald-100 active:bg-emerald-200/60 shadow-sm disabled:opacity-50',
     ghost: 'text-brand-600 hover:bg-brand-50 active:bg-brand-100 disabled:opacity-50',
     danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm',
   }
