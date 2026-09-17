@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f0fdf4]">
       <header className="mx-auto flex max-w-3xl items-center justify-between px-4 py-5">
         <Link to="/" className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-800 font-display text-sm font-bold text-white">K</div>

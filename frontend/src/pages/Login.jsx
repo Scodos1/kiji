@@ -26,8 +26,8 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-screen bg-white">
-      <div className="hidden w-1/2 bg-slate-50 lg:block">
+    <div className="flex min-h-screen bg-[#f0fdf4]">
+      <div className="hidden w-1/2 bg-[#f0fdf4]/60 lg:block">
         <div className="flex h-full flex-col justify-center px-16">
           <div className="flex items-center gap-3 mb-8">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 font-display text-base font-bold text-white shadow-lg shadow-brand-600/20">
